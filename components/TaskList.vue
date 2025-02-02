@@ -102,7 +102,7 @@
   const fetchTasks = async () => {
     try {
       const { data } = await $axios.get("/tasks", {
-        headers: { Authorization: auth.token },
+        headers: { Authorization: `Bearer ${auth.token}` },
       });
       tasks.value = data;
     } catch (error) {
@@ -124,7 +124,7 @@
   const markComplete = async (task) => {
     try {
       await $axios.put(`/tasks/${task._id}`, { status: "Completed" }, {
-        headers: { Authorization: auth.token },
+        headers: { Authorization: `Bearer ${auth.token}` },
       });
       fetchTasks(); // Refresh task list after marking as completed
     } catch (error) {
@@ -142,7 +142,7 @@
   const deleteTask = async (taskId) => {
     try {
       await $axios.delete(`/tasks/${taskId}`, {
-        headers: { Authorization: auth.token },
+        headers: { Authorization: `Bearer ${auth.token}` },
       });
       fetchTasks(); // Refresh task list after deletion
       closeDialog(); // Close dialog after action

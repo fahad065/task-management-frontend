@@ -44,7 +44,8 @@
   const fetchTasks = async () => {
     tasks.value = [];
     showList.value = false
-    const { data } = await $axios.get("/tasks", { headers: { Authorization: auth.token } });
+    
+    const { data } = await $axios.get("/tasks", { headers: { Authorization: `Bearer ${auth.token}` } });
     tasks.value = data;
     showList.value = true
   };

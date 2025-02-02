@@ -1,21 +1,27 @@
 import { defineStore } from "pinia";
+import { useCookie } from "nuxt/app";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    token: null,  // Initial state for token
+    token: "",
+    user: null,
   }),
   actions: {
-    setToken(token) {
-      this.token = token;  // Set the token in the store
-      localStorage.setItem("token", token);  // Optionally store it in localStorage
+    initAuth() {
+      const storedToken = useCookie("authToken").value;
+      if (storedToken) {
+        this.token = storedToken;
+      }
     },
-    getToken() {
-      return this.token || localStorage.getItem("token");  // Get token from store or localStorage
+    setToken(token) {
+      this.token = token;
+      useCookie("authToken").value = token; // Save in cookie
     },
     logout() {
-      this.token = null;
-      localStorage.removeItem("token");
+      this.token = "";
+      this.user = null;
+      useCookie("authToken").value = null; // Remove token
       navigateTo('/');
-    }
-  }
+    },
+  },
 });

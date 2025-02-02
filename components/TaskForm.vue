@@ -60,12 +60,12 @@
     if (props.task) {
       // If task is passed, update it
       await $axios.put(`/tasks/${props.task._id}`, task, {
-        headers: { Authorization: auth.token },
+        headers: { Authorization: `Bearer ${auth.token}` },
       });
       emit("taskUpdated"); // Emit event for parent to refresh task list
     } else {
       // If no task, create a new one
-      await $axios.post("/tasks", task, { headers: { Authorization: auth.token } });
+      await $axios.post("/tasks", task, { headers: { Authorization: `Bearer ${auth.token}` } });
       emit("taskAdded"); // Emit event for parent to refresh task list
     }
     resetForm();
